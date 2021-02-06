@@ -5,8 +5,6 @@ from rest_framework.permissions import (
     IsAdminUser,
 )
 
-from users.models import UserRole
-
 
 class PermissionMixin:
     def get_permissions(self):

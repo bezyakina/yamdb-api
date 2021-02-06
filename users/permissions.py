@@ -1,7 +1,5 @@
 from rest_framework import permissions
 
-from .models import UserRole
-
 
 class IsAdminOrSuperUser(permissions.BasePermission):
     """Права доступа для администратора."""
