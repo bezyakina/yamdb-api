@@ -1,0 +1,38 @@
+version: '3.8'
+
+volumes:
+  postgres_data:
+  static_volume:
+
+services:
+  db:
+    image: postgres:13.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+#    ports:
+#      - "5432:5432"
+    env_file:
+      - ./.env
+
+  web:
+    build: .
+    restart: always
+#    ports:
+#      - "8000:8000"
+    volumes:
+      - static_volume:/code/static
+#    expose:
+#      - 8000
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/code/static
+    ports:
+      - 1337:80
+    depends_on:
+      - web
