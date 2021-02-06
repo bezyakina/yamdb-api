@@ -59,6 +59,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
+          source: "docker-compose.yaml, nginx/default.conf"
+          target: "~/code/"
           script: |
             sudo docker pull bezyakina/yamdb
             sudo docker stop $(sudo docker ps -a -q)
@@ -74,4 +76,4 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: ${{ github.workflow }} успешно выполнен!
+          message: ${{ github.workflow }} успешно выполнен
