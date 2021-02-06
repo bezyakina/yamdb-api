@@ -16,17 +16,19 @@ services:
     image: bezyakina/yamdb:latest
     restart: always
     volumes:
-      - static_volume:/code/static
+      - static_volume:/static/
     depends_on:
       - db
     env_file:
       - ./.env
 
   nginx:
-    build: ./nginx
+    image: nginx:1.19.6-alpine
+    restart: always
     volumes:
       - static_volume:/code/static
+      - ./nginx:/etc/nginx/conf.d
     ports:
-      - 1337:80
+      - 80:80
     depends_on:
       - web
