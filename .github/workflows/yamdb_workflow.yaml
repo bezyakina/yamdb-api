@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   tests:
-    name: Run tests 1
+    name: Run tests
     runs-on: ubuntu-latest
 
     steps:
@@ -58,7 +58,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           source: "docker-compose.yaml, nginx/nginx.conf"
-          target: "~/yamdb"
+          target: "~/"
 
       - name: executing remote ssh commands to deploy
         uses: appleboy/ssh-action@master
@@ -74,7 +74,6 @@ jobs:
             echo "DB_HOST=db" >> ~/.env
             echo "DB_PORT=5432" >> ~/.env
             sudo docker pull bezyakina/yamdb:latest
-            cd ~/yamdb
             sudo docker-compose stop
             sudo docker-compose rm web
             sudo docker-compose up -d
