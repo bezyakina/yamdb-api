@@ -8,8 +8,8 @@
 
 Клонируйте репозиторий из GitHub
 ```sh
-$ git clone https://github.com/bezyakina/infra_sp2.git
-$ cd infra_sp2
+$ git clone https://github.com/bezyakina/yamdb_final.git
+$ cd yamdb_final
 ```
 ### Требования
 
@@ -31,17 +31,17 @@ SECRET_KEY='secret-key'
 
 Соберите и запустите контейнер
 ```
-docker-compose up --build -d
+docker-compose up -d
 ```
 Войдите в контейнер приложения ```web```
 ```
 docker-compose exec web bash
 ```
-Сделайте миграцию и наполните базу начальными данными
+Сделайте миграцию и наполните базу начальными данными и статичными файлами
 ```
 python manage.py migrate --noinput
-python manage.py collectstatic --noinput
 python manage.py loaddata fixtures.json
+python manage.py collectstatic --noinput
 ```
 Создайте суперпользователя
 ```
@@ -52,8 +52,9 @@ python manage.py createsuperuser
 exit
 ```
 
-*Приложение работает на ваш-ip-адрес:1337/admin*
-*Документация по API доступна на ваш-ip-адрес:1337/redoc*
+*Приложение работает на http://127.0.01/admin*
+
+*Документация по API доступна на http://127.0.01/redoc*
 
 ## Запустите тесты
 ```
