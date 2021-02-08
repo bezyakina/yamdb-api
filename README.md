@@ -1,4 +1,4 @@
-![Yamdb%20workflow](https://github.com/bezyakina/yamdb_final/workflows/Yamdb%20workflow/badge.svg)
+![Yamdb%20workflow](https://github.com/bezyakina/yamdb_final/workflows/yamdb/badge.svg)
 
 # API Yamdb
 
