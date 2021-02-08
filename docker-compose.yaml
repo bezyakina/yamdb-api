@@ -12,6 +12,7 @@ services:
       - ./.env
 
   web:
+    container_name: web
     image: bezyakina/yamdb:latest
     restart: always
     depends_on:
