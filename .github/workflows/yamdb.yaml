@@ -64,7 +64,7 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
-        source: docker-compose.yaml, nginx, migrations.sh
+        source: docker-compose.yaml, nginx, migrations.sh, static.sh
         target: yamdb
 
     - name: executing remote ssh commands to deploy
@@ -94,7 +94,15 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script: |
           cd ~/yamdb
-          ./migrations.sh
+          sudo chmod +x migrations.sh
+          sudo ./migrations.sh
+
+    - name: send message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: Миграции успешно накатаны!
 
   collect_static_files:
     name: Collect staic files
@@ -110,7 +118,15 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ~/yamdb
-            sudo docker-compose exec web python manage.py collectstatic --noinput
+            sudo chmod +x static.sh
+            sudo ./static.sh
+
+      - name: send message
+          uses: appleboy/telegram-action@master
+          with:
+            to: ${{ secrets.TELEGRAM_TO }}
+            token: ${{ secrets.TELEGRAM_TOKEN }}
+            message: Статика успешно собрана!
 
   send_message:
     name: Send report to Telegram
@@ -122,4 +138,4 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: ${{ github.workflow }} успешно выполнен!
+          message: Деплой успешно выполнен!
