@@ -93,9 +93,11 @@ jobs:
 #        username: ${{ secrets.USER }}
 #        key: ${{ secrets.SSH_KEY }}
       run: |
-        cd ~/yamdb
-        sudo chmod +x migrations.sh
-        sudo ./migrations.sh
+#        cd ~/yamdb
+#        sudo chmod +x migrations.sh
+#        sudo ./migrations.sh
+        sudo docker-compose exec web python manage.py makemigrations
+        sudo docker-compose exec web python manage.py migrate
 
     - name: send message
       uses: appleboy/telegram-action@master
@@ -117,9 +119,10 @@ jobs:
 #          username: ${{ secrets.USER }}
 #          key: ${{ secrets.SSH_KEY }}
         run: |
-          cd ~/yamdb
-          sudo chmod +x static.sh
-          sudo ./static.sh
+#          cd ~/yamdb
+#          sudo chmod +x static.sh
+#          sudo ./static.sh
+          sudo docker-compose exec web python manage.py collectstatic --noinput
 
       - name: send message
         uses: appleboy/telegram-action@master
