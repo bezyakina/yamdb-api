@@ -32,23 +32,23 @@ jobs:
     needs: tests
     if: github.ref == 'refs/heads/master'
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
+    - name: Check out the repo
+      uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
-      - name: Login to Docker
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Login to Docker
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Push to Docker Hub
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: bezyakina/yamdb:latest
+    - name: Push to Docker Hub
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: bezyakina/yamdb:latest
 
   deploy:
     name: Deploy on Yandex.Cloud
@@ -56,27 +56,28 @@ jobs:
     needs: build_and_push_to_docker_hub
     if: github.ref == 'refs/heads/master'
     steps:
-      - uses: actions/checkout@master
-      - name: copy file via ssh key
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          source: docker-compose.yaml, nginx, migrations.sh
-          target: yamdb
-      - name: executing remote ssh commands to deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            sudo docker pull bezyakina/yamdb:latest
-            sudo docker-compose stop
-            sudo docker-compose rm -f web
-            sudo docker-compose up -d
+    - uses: actions/checkout@master
+    - name: copy file via ssh key
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        source: docker-compose.yaml, nginx, migrations.sh
+        target: yamdb
+
+    - name: executing remote ssh commands to deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          sudo docker pull bezyakina/yamdb:latest
+          sudo docker-compose stop
+          sudo docker-compose rm -f web
+          sudo docker-compose up -d
 
   run_migrations:
     name: Run PostgreSQL migraions
@@ -84,15 +85,15 @@ jobs:
     needs: deploy
     if: "contains(github.event.head_commit.message, 'RUN MIGRATIONS')"
     steps:
-      - uses: appleboy/ssh-action@master
-      - name: running migrations.sh
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            cd ~/yamdb
-            ./migrations.sh
+    - name: running migrations.sh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          cd ~/yamdb
+          ./migrations.sh
 
   collect_static_files:
     name: Run PostgreSQL migraions
@@ -100,8 +101,8 @@ jobs:
     needs: deploy
     if: "contains(github.event.head_commit.message, 'COLLECT STATIC')"
     steps:
-      - uses: appleboy/ssh-action@master
       - name: collecting static files
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
