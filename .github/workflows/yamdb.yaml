@@ -74,6 +74,7 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         script: |
+          cd ~/yamdb
           sudo docker pull bezyakina/yamdb:latest
           sudo docker-compose stop
           sudo docker-compose rm -f web
