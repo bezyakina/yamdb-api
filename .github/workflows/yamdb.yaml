@@ -87,15 +87,15 @@ jobs:
     if: "contains(github.event.head_commit.message, 'RUN MIGRATIONS')"
     steps:
     - name: running migrations.sh
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USER }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          cd ~/yamdb
-          sudo chmod +x migrations.sh
-          sudo ./migrations.sh
+#      uses: appleboy/ssh-action@master
+#      with:
+#        host: ${{ secrets.HOST }}
+#        username: ${{ secrets.USER }}
+#        key: ${{ secrets.SSH_KEY }}
+      run: |
+        cd ~/yamdb
+        sudo chmod +x migrations.sh
+        sudo ./migrations.sh
 
     - name: send message
       uses: appleboy/telegram-action@master
@@ -111,15 +111,15 @@ jobs:
     if: "contains(github.event.head_commit.message, 'COLLECT STATIC')"
     steps:
       - name: collecting static files
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            cd ~/yamdb
-            sudo chmod +x static.sh
-            sudo ./static.sh
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.USER }}
+#          key: ${{ secrets.SSH_KEY }}
+      run: |
+        cd ~/yamdb
+        sudo chmod +x static.sh
+        sudo ./static.sh
 
       - name: send message
         uses: appleboy/telegram-action@master
