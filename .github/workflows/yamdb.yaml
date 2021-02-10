@@ -84,8 +84,8 @@ jobs:
     needs: deploy
     if: "contains(github.event.head_commit.message, 'RUN MIGRATIONS')"
     steps:
-      - name: running migrations.sh
       - uses: appleboy/ssh-action@master
+      - name: running migrations.sh
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
@@ -100,8 +100,8 @@ jobs:
     needs: deploy
     if: "contains(github.event.head_commit.message, 'COLLECT STATIC')"
     steps:
-      - name: collecting static files
       - uses: appleboy/ssh-action@master
+      - name: collecting static files
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
