@@ -116,10 +116,10 @@ jobs:
 #          host: ${{ secrets.HOST }}
 #          username: ${{ secrets.USER }}
 #          key: ${{ secrets.SSH_KEY }}
-      run: |
-        cd ~/yamdb
-        sudo chmod +x static.sh
-        sudo ./static.sh
+        run: |
+          cd ~/yamdb
+          sudo chmod +x static.sh
+          sudo ./static.sh
 
       - name: send message
         uses: appleboy/telegram-action@master
