@@ -98,11 +98,11 @@ jobs:
           sudo ./migrations.sh
 
     - name: send message
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: Миграции успешно накатаны!
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: Миграции успешно накатаны!
 
   collect_static_files:
     name: Collect staic files
@@ -122,11 +122,11 @@ jobs:
             sudo ./static.sh
 
       - name: send message
-          uses: appleboy/telegram-action@master
-          with:
-            to: ${{ secrets.TELEGRAM_TO }}
-            token: ${{ secrets.TELEGRAM_TOKEN }}
-            message: Статика успешно собрана!
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: Статика успешно собрана!
 
   send_message:
     name: Send report to Telegram
