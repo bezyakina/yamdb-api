@@ -64,7 +64,7 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
-        source: docker-compose.yaml, nginx, migrations.sh, static.sh
+        source: docker-compose.yaml, nginx, static, migrations.sh, static.sh
         target: yamdb
 
     - name: executing remote ssh commands to deploy
