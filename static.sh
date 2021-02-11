@@ -1,1 +1,1 @@
-sudo docker-compose exec web python manage.py collectstatic --noinput
+sudo docker-compose exec -T web python manage.py collectstatic --noinput
